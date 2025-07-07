@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>写给轻风的信</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        .letter-container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-weight: 300;
+            font-size: 2.2em;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border 0.3s ease;
+        }
+        input:focus, textarea:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+        button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="letter-container">
+        <h1>🍃写给轻风的信✉️</h1>
+        <form id="contact-form">
+            <div class="form-group">
+                <label for="from_name">你的昵称</label>
+                <input type="text" id="from_name" name="from_name" required placeholder="感谢你为风风写信～">
+            </div>
+            <div class="form-group">
+                <label for="from_email">你的邮箱</label>
+                <input type="email" id="from_email" name="from_email" required placeholder="以便风风能回复你～">
+            </div>
+            <div class="form-group">
+                <label for="subject">信件主题</label>
+                <input type="text" id="subject" name="subject" placeholder="（选填）">
+            </div>
+            <div class="form-group">
+                <label for="message">想对轻风说的话</label>
+                <textarea id="message" name="message" rows="5" required placeholder="请写下你想说的话..."></textarea>
+            </div>
+            <button type="submit">寄出这封信</button>
+        </form>
+        <div class="footer">
+            "您的信件将通过EmailJS发送至Dohchunwoo@outlook.com"
+        </div>
+    </div>
+
+    <!-- 引入 EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
+        // 初始化 EmailJS（替换 YOUR_USER_ID）
+        emailjs.init("1mBIoM22FUcwEIrW8");
+
+        // 表单提交事件
+        document.getElementById("contact-form").addEventListener("submit", function(e) {
+            e.preventDefault(); // 阻止默认表单提交
+
+            // 发送邮件（替换 SERVICE_ID 和 TEMPLATE_ID）
+            emailjs.sendForm("service_4je12wx", "template_440tnso", this)
+                .then(function() {
+                    alert("信件已寄出！轻风很快就会收到！");
+                    document.getElementById("contact-form").reset(); // 清空表单
+                }, function(error) {
+                    alert("非常抱歉，寄信失败X﹏X：" + error);
+                });
+        });
+    </script>
+</body>
+</html>
