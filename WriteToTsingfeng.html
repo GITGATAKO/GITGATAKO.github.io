@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联系我们</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .contact-form {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        #form-response {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <h1>写给轻风的信</h1>
+    
+    <div class="contact-form">
+        <form id="contact-form">
+            <div class="form-group">
+                <label for="from_name">您的昵称</label>
+                <input type="text" id="from_name" name="from_name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="from_email">您的邮箱</label>
+                <input type="email" id="from_email" name="from_email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="message">留言内容</label>
+                <textarea id="message" name="message" required></textarea>
+            </div>
+            
+            <button type="submit">发送留言</button>
+        </form>
+        
+        <div id="form-response"></div>
+    </div>
+
+    <!-- 引入 EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    
+    <script>
+        // 初始化 EmailJS
+        emailjs.init('1mBIoM22FUcwEIrW8');
+        
+        // 表单提交处理
+        document.getElementById('contact-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const responseDiv = document.getElementById('form-response');
+            responseDiv.style.display = 'none';
+            
+            // 发送邮件
+            emailjs.sendForm('service_4je12wx', 'template_440tnso', this)
+                .then(function() {
+                    responseDiv.textContent = '留言已成功发送！';
+                    responseDiv.className = 'success';
+                    responseDiv.style.display = 'block';
+                    document.getElementById('contact-form').reset();
+                }, function(error) {
+                    responseDiv.textContent = '发送失败，请稍后再试。错误: ' + error.text;
+                    responseDiv.className = 'error';
+                    responseDiv.style.display = 'block';
+                });
+        });
+    </script>
+</body>
+</html>
