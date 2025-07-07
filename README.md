@@ -1,1 +1,0 @@
-# gitgatako.github.io
