@@ -77,12 +77,37 @@
             color: #7f8c8d;
             font-size: 14px;
         }
+        .anonymous-checkbox {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+        }
+        .anonymous-checkbox input {
+            width: auto;
+            margin-right: 10px;
+        }
+        .anonymous-checkbox label {
+            margin-bottom: 0;
+            color: #555;
+        }
+        .disabled-field {
+            background-color: #f5f5f5;
+            color: #999;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
     <div class="letter-container">
         <h1>🍃写给轻风的信✉️</h1>
         <form id="contact-form">
+            <div class="anonymous-checkbox">
+                <input type="checkbox" id="anonymous" name="anonymous">
+                <label for="anonymous">发送匿名信</label>
+            </div>
             <div class="form-group">
                 <label for="from_name">你的昵称</label>
                 <input type="text" id="from_name" name="from_name" required placeholder="感谢你为风风写信～">
@@ -112,6 +137,28 @@
         // 初始化 EmailJS（替换 YOUR_USER_ID）
         emailjs.init("1mBIoM22FUcwEIrW8");
 
+        // 匿名信功能
+        document.getElementById('anonymous').addEventListener('change', function() {
+            const nameField = document.getElementById('from_name');
+            const emailField = document.getElementById('from_email');
+            
+            if (this.checked) {
+                nameField.value = '（匿名）';
+                emailField.value = 'anonymous@example.com';
+                nameField.classList.add('disabled-field');
+                emailField.classList.add('disabled-field');
+                nameField.readOnly = true;
+                emailField.readOnly = true;
+            } else {
+                nameField.value = '';
+                emailField.value = '';
+                nameField.classList.remove('disabled-field');
+                emailField.classList.remove('disabled-field');
+                nameField.readOnly = false;
+                emailField.readOnly = false;
+            }
+        });
+
         // 表单提交事件
         document.getElementById("contact-form").addEventListener("submit", function(e) {
             e.preventDefault(); // 阻止默认表单提交
@@ -121,6 +168,12 @@
                 .then(function() {
                     alert("信件已寄出！轻风很快就会收到！");
                     document.getElementById("contact-form").reset(); // 清空表单
+                    // 重置匿名状态
+                    document.getElementById('anonymous').checked = false;
+                    document.getElementById('from_name').classList.remove('disabled-field');
+                    document.getElementById('from_email').classList.remove('disabled-field');
+                    document.getElementById('from_name').readOnly = false;
+                    document.getElementById('from_email').readOnly = false;
                 }, function(error) {
                     alert("非常抱歉，寄信失败X﹏X：" + error);
                 });
